@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f4e9; /* Light sandalwood */
+            font-family: 'Roboto', sans-serif;
+        }
+        h1, h2 {
+            color: #2d3a4b; /* Dark blue */
+        }
+        .event-card {
+            background-color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .event-card-header {
+            background-color: #4a77d4; /* Medium blue */
+            color: white;
+            padding: 10px 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .event-card-body {
+            padding: 20px;
+        }
+        .event-actions {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background-color: #4a77d4;
+            border-color: #4a77d4;
+        }
+        .btn-danger {
+            background-color: #d45757;
+            border-color: #d45757;
+        }
+        .btn-success {
+            background-color: #7e998d;
+            border-color: #7e998d;
+        }
+        .btn-primary:hover {
+            background-color: #3a62ab;
+        }
+        .btn-danger:hover {
+            background-color: #b64646;
+        }
+        .btn-success:hover {
+            background-color: #6b8478;
+        }
+        .container-custom {
+            max-width: 750px;
+            margin-top: 40px;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container container-custom">
+        <h1 class="text-center mb-4">Events</h1>
+
+        <!-- Event List -->
+        {% for event in events %}
+        <div class="card event-card shadow-custom">
+            <div class="card-header event-card-header">
+                {{ event.name }}
+            </div>
+            <div class="card-body event-card-body">
+                <p><strong>Date:</strong> {{ event.date|date:"F j, Y, g:i a" }}</p>
+                <p><strong>Description:</strong> {{ event.description }}</p>
+                <div class="event-actions">
+                    <a href="{% url 'event_detail' event.pk %}" class="btn btn-sm btn-primary me-2">Edit</a>
+                    <a href="{% url 'event_delete' event.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Create New Event Form -->
+        <h2 class="text-center mb-3">Create New Event</h2>
+        <div class="form-container shadow-custom">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_name" class="form-label">Event Name</label>
+                    <input type="text" name="name" id="id_name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="id_date" class="form-label">Event Date</label>
+                    <input type="datetime-local" name="date" id="id_date" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="id_description" class="form-label">Event Description</label>
+                    <textarea name="description" id="id_description" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">Create Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events and Seat Booking</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f4e9; /* Light sandalwood */
+            font-family: 'Roboto', sans-serif;
+        }
+        h1, h2 {
+            color: #2d3a4b; /* Dark blue */
+        }
+        .event-card {
+            background-color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .event-card-header {
+            background-color: #4a77d4; /* Medium blue */
+            color: white;
+            padding: 10px 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .event-card-body {
+            padding: 20px;
+        }
+        .event-actions {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .btn-primary, .btn-success {
+            margin-right: 10px;
+        }
+        .container-custom {
+            max-width: 750px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container container-custom">
+        <h1 class="text-center mb-4">Event List</h1>
+
+        <!-- List of Events with Select Event and Select Seats buttons -->
+        {% for event in events %}
+        <div class="card event-card shadow-custom">
+            <div class="card-header event-card-header">
+                {{ event.name }}
+            </div>
+            <div class="card-body event-card-body">
+                <p><strong>Date:</strong> {{ event.date|date:"F j, Y, g:i a" }}</p>
+                <p><strong>Description:</strong> {{ event.description }}</p>
+                <div class="event-actions">
+                    <!-- Admin: Select Event button -->
+                    <a href="{% url 'event_list_create' event.id %}" class="btn btn-sm btn-primary">Select Event</a>
+
+                    <!-- User: Select Seats button (book seats for the event) -->
+                    <a href="{% url 'seat_booking' event.id %}" class="btn btn-sm btn-success">Select Seats</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Create New Event Form for Admin (if applicable) -->
+        <h2 class="text-center mb-3">Create New Event</h2>
+        <div class="form-container shadow-custom">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">Create Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

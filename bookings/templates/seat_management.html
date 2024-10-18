@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Management</title>
+</head>
+<body>
+    <h1>Seat Management</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Row</th>
+                <th>Seat Number</th>
+                <th>Booked By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for seat in seats %}
+            <tr>
+                <td>{{ seat.row }}</td>
+                <td>{{ seat.number }}</td>
+                <td>{% if seat.booked_by %} {{ seat.booked_by }} {% else %} Available {% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
